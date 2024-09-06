@@ -155,58 +155,89 @@ const getAllSlsGeoJSON = async () => {
 };
 
 const calculateTotals = async () => {
+  // Mengambil semua dokumen Sls
   const slsList = await Sls.find().select("geojson");
 
+  // Inisialisasi objek totals dengan kunci yang sesuai
   const totals = {
-    jml_unit_usaha_klengkeng: 0,
-    jml_unit_usaha_klengkeng_new_crystal: 0,
-    jml_unit_usaha_klengkeng_pingpong: 0,
-    jml_unit_usaha_klengkeng_matalada: 0,
-    jml_unit_usaha_klengkeng_diamond_river: 0,
-    jml_unit_usaha_klengkeng_merah: 0,
-    jml_unit_usaha_klengkeng_pupuk_organik: 0,
-    jml_unit_usaha_klengkeng_pupuk_anorganik: 0,
-    jml_unit_usaha_klengkeng_tidak_ada_pupuk: 0,
-    jml_unit_usaha_klengkeng_kopi_biji_klengkeng: 0,
-    jml_unit_usaha_klengkeng_kerajinan_tangan: 0,
-    jml_unit_usaha_klengkeng_batik_ecoprint: 0,
-    jml_unit_usaha_klengkeng_minuman: 0,
-    jml_unit_usaha_klengkeng_makanan: 0,
+    total_usaha_sayuran: 0,
+    total_tanaman_kangkung: 0,
+    total_tanaman_bayam: 0,
+    total_tanaman_sawi: 0,
+    total_rata2_luas_tanam_kangkung: 0,
+    total_rata2_luas_tanam_bayam: 0,
+    total_rata2_luas_tanam_sawi: 0,
+    total_rata2_luas_panen_kangkung: 0,
+    total_rata2_luas_panen_bayam: 0,
+    total_rata2_luas_panen_sawi: 0,
+    total_rata2_volume_produksi_kangkung: 0,
+    total_rata2_volume_produksi_bayam: 0,
+    total_rata2_volume_produksi_sawi: 0,
+    total_rata2_nilai_produksi_kangkung: 0,
+    total_rata2_nilai_produksi_bayam: 0,
+    total_rata2_nilai_produksi_sawi: 0,
+    total_tanaman_kangkung_dijual_sendiri: 0,
+    total_tanaman_bayam_dijual_sendiri: 0,
+    total_tanaman_sawi_dijual_sendiri: 0,
+    total_tanaman_kangkung_dijual_ke_tengkulak: 0,
+    total_tanaman_bayam_dijual_ke_tengkulak: 0,
+    total_tanaman_sawi_dijual_ke_tengkulak: 0,
   };
 
+  // Iterasi setiap dokumen Sls untuk menghitung total
   slsList.forEach((sls) => {
     const { features } = sls.geojson;
+
+    // Pastikan ada fitur dalam geojson
     if (features && features.length > 0) {
-      const { properties } = features[0];
-      totals.jml_unit_usaha_klengkeng += properties.jml_unit_usaha_klengkeng;
-      totals.jml_unit_usaha_klengkeng_new_crystal +=
-        properties.jml_unit_usaha_klengkeng_new_crystal;
-      totals.jml_unit_usaha_klengkeng_pingpong +=
-        properties.jml_unit_usaha_klengkeng_pingpong;
-      totals.jml_unit_usaha_klengkeng_matalada +=
-        properties.jml_unit_usaha_klengkeng_matalada;
-      totals.jml_unit_usaha_klengkeng_diamond_river +=
-        properties.jml_unit_usaha_klengkeng_diamond_river;
-      totals.jml_unit_usaha_klengkeng_merah +=
-        properties.jml_unit_usaha_klengkeng_merah;
-      totals.jml_unit_usaha_klengkeng_pupuk_organik +=
-        properties.jml_unit_usaha_klengkeng_pupuk_organik;
-      totals.jml_unit_usaha_klengkeng_pupuk_anorganik +=
-        properties.jml_unit_usaha_klengkeng_pupuk_anorganik;
-      totals.jml_unit_usaha_klengkeng_tidak_ada_pupuk +=
-        properties.jml_unit_usaha_klengkeng_tidak_ada_pupuk;
-      totals.jml_unit_usaha_klengkeng_kopi_biji_klengkeng +=
-        properties.jml_unit_usaha_klengkeng_kopi_biji_klengkeng;
-      totals.jml_unit_usaha_klengkeng_kerajinan_tangan +=
-        properties.jml_unit_usaha_klengkeng_kerajinan_tangan;
-      totals.jml_unit_usaha_klengkeng_batik_ecoprint +=
-        properties.jml_unit_usaha_klengkeng_batik_ecoprint;
-      totals.jml_unit_usaha_klengkeng_minuman +=
-        properties.jml_unit_usaha_klengkeng_minuman;
-      totals.jml_unit_usaha_klengkeng_makanan +=
-        properties.jml_unit_usaha_klengkeng_makanan;
+      features.forEach((feature) => {
+        const { properties } = feature;
+
+        // Akumulasi nilai-nilai dari properti dalam feature
+        totals.total_usaha_sayuran += properties.total_usaha_sayuran || 0;
+        totals.total_tanaman_kangkung += properties.total_tanaman_kangkung || 0;
+        totals.total_tanaman_bayam += properties.total_tanaman_bayam || 0;
+        totals.total_tanaman_sawi += properties.total_tanaman_sawi || 0;
+        totals.total_rata2_luas_tanam_kangkung +=
+          properties.total_rata2_luas_tanam_kangkung || 0;
+        totals.total_rata2_luas_tanam_bayam +=
+          properties.total_rata2_luas_tanam_bayam || 0;
+        totals.total_rata2_luas_tanam_sawi +=
+          properties.total_rata2_luas_tanam_sawi || 0;
+        totals.total_rata2_luas_panen_kangkung +=
+          properties.total_rata2_luas_panen_kangkung || 0;
+        totals.total_rata2_luas_panen_bayam +=
+          properties.total_rata2_luas_panen_bayam || 0;
+        totals.total_rata2_luas_panen_sawi +=
+          properties.total_rata2_luas_panen_sawi || 0;
+        totals.total_rata2_volume_produksi_kangkung +=
+          properties.total_rata2_volume_produksi_kangkung || 0;
+        totals.total_rata2_volume_produksi_bayam +=
+          properties.total_rata2_volume_produksi_bayam || 0;
+        totals.total_rata2_volume_produksi_sawi +=
+          properties.total_rata2_volume_produksi_sawi || 0;
+        totals.total_rata2_nilai_produksi_kangkung +=
+          properties.total_rata2_nilai_produksi_kangkung || 0;
+        totals.total_rata2_nilai_produksi_bayam +=
+          properties.total_rata2_nilai_produksi_bayam || 0;
+        totals.total_rata2_nilai_produksi_sawi +=
+          properties.total_rata2_nilai_produksi_sawi || 0;
+        totals.total_tanaman_kangkung_dijual_sendiri +=
+          properties.total_tanaman_kangkung_dijual_sendiri || 0;
+        totals.total_tanaman_bayam_dijual_sendiri +=
+          properties.total_tanaman_bayam_dijual_sendiri || 0;
+        totals.total_tanaman_sawi_dijual_sendiri +=
+          properties.total_tanaman_sawi_dijual_sendiri || 0;
+        totals.total_tanaman_kangkung_dijual_ke_tengkulak +=
+          properties.total_tanaman_kangkung_dijual_ke_tengkulak || 0;
+        totals.total_tanaman_bayam_dijual_ke_tengkulak +=
+          properties.total_tanaman_bayam_dijual_ke_tengkulak || 0;
+        totals.total_tanaman_sawi_dijual_ke_tengkulak +=
+          properties.total_tanaman_sawi_dijual_ke_tengkulak || 0;
+      });
     }
   });
+
   return totals;
 };
 
