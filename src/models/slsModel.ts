@@ -27,20 +27,28 @@ interface IGeoJSONFeature extends Document {
     rw: string;
     dusun: string;
     label: string;
-    jml_unit_usaha_klengkeng: number;
-    jml_unit_usaha_klengkeng_new_crystal: number;
-    jml_unit_usaha_klengkeng_pingpong: number;
-    jml_unit_usaha_klengkeng_matalada: number;
-    jml_unit_usaha_klengkeng_diamond_river: number;
-    jml_unit_usaha_klengkeng_merah: number;
-    jml_unit_usaha_klengkeng_pupuk_organik: number;
-    jml_unit_usaha_klengkeng_pupuk_anorganik: number;
-    jml_unit_usaha_klengkeng_tidak_ada_pupuk: number;
-    jml_unit_usaha_klengkeng_kopi_biji_klengkeng: number;
-    jml_unit_usaha_klengkeng_kerajinan_tangan: number;
-    jml_unit_usaha_klengkeng_batik_ecoprint: number;
-    jml_unit_usaha_klengkeng_minuman: number;
-    jml_unit_usaha_klengkeng_makanan: number;
+    total_usaha_sayuran: number;
+    total_tanaman_kangkung: number;
+    total_tanaman_bayam: number;
+    total_tanaman_sawi: number;
+    total_rata2_luas_tanam_kangkung: number;
+    total_rata2_luas_tanam_bayam: number;
+    total_rata2_luas_tanam_sawi: number;
+    total_rata2_luas_panen_kangkung: number;
+    total_rata2_luas_panen_bayam: number;
+    total_rata2_luas_panen_sawi: number;
+    total_rata2_volume_produksi_kangkung: number;
+    total_rata2_volume_produksi_bayam: number;
+    total_rata2_volume_produksi_sawi: number;
+    total_rata2_nilai_produksi_kangkung: number;
+    total_rata2_nilai_produksi_bayam: number;
+    total_rata2_nilai_produksi_sawi: number;
+    total_tanaman_kangkung_dijual_sendiri: number;
+    total_tanaman_bayam_dijual_sendiri: number;
+    total_tanaman_sawi_dijual_sendiri: number;
+    total_tanaman_kangkung_dijual_ke_tengkulak: number;
+    total_tanaman_bayam_dijual_ke_tengkulak: number;
+    total_tanaman_sawi_dijual_ke_tengkulak: number;
     [key: string]: any; // Untuk properti tambahan lainnya
   };
 }
@@ -96,23 +104,28 @@ const GeoJSONFeatureSchema: Schema = new Schema({
     rw: { type: String, required: true },
     dusun: { type: String, required: true },
     label: { type: String, required: true },
-    jml_unit_usaha_klengkeng: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_new_crystal: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_pingpong: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_matalada: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_diamond_river: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_merah: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_pupuk_organik: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_pupuk_anorganik: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_tidak_ada_pupuk: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_kopi_biji_klengkeng: {
-      type: Number,
-      required: true,
-    },
-    jml_unit_usaha_klengkeng_kerajinan_tangan: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_batik_ecoprint: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_minuman: { type: Number, required: true },
-    jml_unit_usaha_klengkeng_makanan: { type: Number, required: true },
+    total_usaha_sayuran: { type: Number, required: true },
+    total_tanaman_kangkung: { type: Number, required: true },
+    total_tanaman_bayam: { type: Number, required: true },
+    total_tanaman_sawi: { type: Number, required: true },
+    total_rata2_luas_tanam_kangkung: { type: Number, required: true },
+    total_rata2_luas_tanam_bayam: { type: Number, required: true },
+    total_rata2_luas_tanam_sawi: { type: Number, required: true },
+    total_rata2_luas_panen_kangkung: { type: Number, required: true },
+    total_rata2_luas_panen_bayam: { type: Number, required: true },
+    total_rata2_luas_panen_sawi: { type: Number, required: true },
+    total_rata2_volume_produksi_kangkung: { type: Number, required: true },
+    total_rata2_volume_produksi_bayam: { type: Number, required: true },
+    total_rata2_volume_produksi_sawi: { type: Number, required: true },
+    total_rata2_nilai_produksi_kangkung: { type: Number, required: true },
+    total_rata2_nilai_produksi_bayam: { type: Number, required: true },
+    total_rata2_nilai_produksi_sawi: { type: Number, required: true },
+    total_tanaman_kangkung_dijual_sendiri: { type: Number, required: true },
+    total_tanaman_bayam_dijual_sendiri: { type: Number, required: true },
+    total_tanaman_sawi_dijual_sendiri: { type: Number, required: true },
+    total_tanaman_kangkung_dijual_ke_tengkulak: { type: Number, required: true },
+    total_tanaman_bayam_dijual_ke_tengkulak: { type: Number, required: true },
+    total_tanaman_sawi_dijual_ke_tengkulak: { type: Number, required: true },
   },
 });
 
