@@ -10,7 +10,8 @@ interface ITanaman extends Document {
     | "kekeringan/kekurangan_air"
     | "hama/penyakit"
     | "panen_sebagian"
-    | "lainnya";
+    | "lainnya"
+    | "";
   rata2_volume_produksi: number;
   rata2_nilai_produksi: number;
   jenis_pupuk:
@@ -40,6 +41,7 @@ const TanamanSchema = new Schema<ITanaman>({
       "hama/penyakit",
       "panen_sebagian",
       "lainnya",
+      "",
     ],
     required: true,
   },

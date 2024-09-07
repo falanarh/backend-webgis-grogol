@@ -61,6 +61,7 @@ const UsahaSayuranSchema = new Schema<IUsahaSayuran>({
           "hama/penyakit",
           "panen_sebagian",
           "lainnya",
+          ""
         ],
       },
       rata2_volume_produksi: { type: Number, required: true },
