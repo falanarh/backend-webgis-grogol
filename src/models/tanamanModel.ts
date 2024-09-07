@@ -69,3 +69,4 @@ const TanamanSchema = new Schema<ITanaman>({
 const Tanaman = mongoose.model<ITanaman>("Tanaman", TanamanSchema);
 
 export { ITanaman, Tanaman };
+
