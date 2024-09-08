@@ -201,7 +201,7 @@ const addUsahaSayuran = async (data: IUsahaSayuran | IUsahaSayuran[]) => {
     const updateAggregatesStart = Date.now();
     console.log("Update aggregates start at:", new Date(updateAggregatesStart).toISOString());
 
-    await updateAllSlsAggregates();
+    // await updateAllSlsAggregates();
 
     const updateAggregatesEnd = Date.now();
     console.log("Update aggregates end at:", new Date(updateAggregatesEnd).toISOString());
