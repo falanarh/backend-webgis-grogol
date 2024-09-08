@@ -36,14 +36,99 @@ const validateUsahaSayuranData = (data: IUsahaSayuran) => {
   }
 };
 
+// const addUsahaSayuran = async (data: IUsahaSayuran | IUsahaSayuran[]) => {
+//   const dataArray = Array.isArray(data) ? data : [data];
+//   const session = await mongoose.startSession();
+
+//   try {
+//     session.startTransaction();
+
+//     // Validasi dan pencarian SLS
+//     for (const item of dataArray) {
+//       validateUsahaSayuranData(item);
+//       const sls = await Sls.findOne({ kode: item.kodeSls }).session(session);
+//       if (!sls) {
+//         throw new Error(
+//           `SLS dengan kode ${item.kodeSls} tidak ditemukan. Pastikan kode SLS yang dimasukkan benar.`
+//         );
+//       }
+//     }
+
+//     // Menentukan kode usaha baru
+//     for (const item of dataArray) {
+//       // Periksa dan pastikan tidak ada duplikasi kode
+//       const existingUsaha = await UsahaSayuran.findOne({
+//         kode: item.kode,
+//       }).session(session);
+//       if (existingUsaha) {
+//         throw new Error(`Kode usaha ${item.kode} sudah ada.`);
+//       }
+
+//       // Generate kode usaha baru jika belum ada
+//       let highestCode = await UsahaSayuran.findOne({
+//         kode: new RegExp(`^${item.kodeSls}`),
+//       })
+//         .sort({ kode: -1 })
+//         .session(session);
+
+//       // Tentukan nomor urut berikutnya
+//       let nextNumber = 1;
+//       if (highestCode) {
+//         const highestNumber = parseInt(
+//           highestCode.kode.slice(item.kodeSls.length),
+//           10
+//         );
+//         nextNumber = highestNumber + 1;
+//       }
+
+//       // Format nomor urut dengan tiga digit
+//       const formattedNumber = nextNumber.toString().padStart(3, "0");
+//       item.kode = `${item.kodeSls}${formattedNumber}`;
+//     }
+
+//     // Simpan data usaha sayuran ke database
+//     const newUsahaSayuran = await UsahaSayuran.insertMany(dataArray, {
+//       session,
+//     });
+
+//     await session.commitTransaction();
+//     session.endSession();
+
+//     // Update agregat SLS setelah menyimpan data
+//     await updateAllSlsAggregates();
+
+//     return [];
+//   } catch (error) {
+//     await session.abortTransaction();
+//     session.endSession();
+
+//     // Logging kesalahan
+//     if (error instanceof Error) {
+//       console.error(`Gagal menyimpan usaha sayuran: ${error.message}`);
+//       throw new Error(`Gagal menyimpan usaha sayuran: ${error.message}`);
+//     } else {
+//       console.error("Gagal menyimpan usaha sayuran: Unknown error");
+//       throw new Error("Gagal menyimpan usaha sayuran: Unknown error");
+//     }
+//   }
+// };
+
 const addUsahaSayuran = async (data: IUsahaSayuran | IUsahaSayuran[]) => {
   const dataArray = Array.isArray(data) ? data : [data];
   const session = await mongoose.startSession();
 
+  // Mulai pencatatan waktu
+  const start = Date.now();
+  console.log("Start processing at:", new Date(start).toISOString());
+
   try {
     session.startTransaction();
+    console.log("Started transaction at:", new Date().toISOString());
 
     // Validasi dan pencarian SLS
+    const validationStart = Date.now();
+    console.log("Validation start at:", new Date(validationStart).toISOString());
+
     for (const item of dataArray) {
       validateUsahaSayuranData(item);
       const sls = await Sls.findOne({ kode: item.kodeSls }).session(session);
@@ -54,7 +139,14 @@ const addUsahaSayuran = async (data: IUsahaSayuran | IUsahaSayuran[]) => {
       }
     }
 
+    const validationEnd = Date.now();
+    console.log("Validation end at:", new Date(validationEnd).toISOString());
+    console.log("Validation duration:", (validationEnd - validationStart) / 1000, "seconds");
+
     // Menentukan kode usaha baru
+    const codeGenerationStart = Date.now();
+    console.log("Code generation start at:", new Date(codeGenerationStart).toISOString());
+
     for (const item of dataArray) {
       // Periksa dan pastikan tidak ada duplikasi kode
       const existingUsaha = await UsahaSayuran.findOne({
@@ -86,16 +178,38 @@ const addUsahaSayuran = async (data: IUsahaSayuran | IUsahaSayuran[]) => {
       item.kode = `${item.kodeSls}${formattedNumber}`;
     }
 
+    const codeGenerationEnd = Date.now();
+    console.log("Code generation end at:", new Date(codeGenerationEnd).toISOString());
+    console.log("Code generation duration:", (codeGenerationEnd - codeGenerationStart) / 1000, "seconds");
+
     // Simpan data usaha sayuran ke database
+    const saveStart = Date.now();
+    console.log("Save start at:", new Date(saveStart).toISOString());
+
     const newUsahaSayuran = await UsahaSayuran.insertMany(dataArray, {
       session,
     });
+
+    const saveEnd = Date.now();
+    console.log("Save end at:", new Date(saveEnd).toISOString());
+    console.log("Save duration:", (saveEnd - saveStart) / 1000, "seconds");
 
     await session.commitTransaction();
     session.endSession();
 
     // Update agregat SLS setelah menyimpan data
+    const updateAggregatesStart = Date.now();
+    console.log("Update aggregates start at:", new Date(updateAggregatesStart).toISOString());
+
     await updateAllSlsAggregates();
+
+    const updateAggregatesEnd = Date.now();
+    console.log("Update aggregates end at:", new Date(updateAggregatesEnd).toISOString());
+    console.log("Update aggregates duration:", (updateAggregatesEnd - updateAggregatesStart) / 1000, "seconds");
+
+    const end = Date.now();
+    console.log("End processing at:", new Date(end).toISOString());
+    console.log("Total duration:", (end - start) / 1000, "seconds");
 
     return [];
   } catch (error) {
@@ -112,6 +226,7 @@ const addUsahaSayuran = async (data: IUsahaSayuran | IUsahaSayuran[]) => {
     }
   }
 };
+
 
 const updateUsahaSayuran = async (
   id: mongoose.Types.ObjectId,
