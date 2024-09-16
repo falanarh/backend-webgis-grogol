@@ -67,7 +67,7 @@ const UsahaSayuranSchema = new Schema<IUsahaSayuran>({
       rata2_volume_produksi: { type: Number, required: true },
       rata2_nilai_produksi: { type: Number, required: true },
       jenis_pupuk: {
-        type: String,
+        type: [String],
         enum: [
           "urea",
           "npk",

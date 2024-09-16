@@ -1,29 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface ITanaman extends Document {
-  nama_tanaman: "kangkung" | "bayam" | "sawi";
-  frekuensi_tanam: number;
-  rata2_luas_tanam: number;
-  frekuensi_panen: number;
-  rata2_luas_panen: number;
-  penyebab_luas_panen_kurang_dari_luas_tanam:
-    | "kekeringan/kekurangan_air"
-    | "hama/penyakit"
-    | "panen_sebagian"
-    | "lainnya"
-    | "";
-  rata2_volume_produksi: number;
-  rata2_nilai_produksi: number;
-  jenis_pupuk:
-    | "urea"
-    | "npk"
-    | "non_organik_lainnya"
-    | "organik"
-    | "tidak_ada";
-  is_penyuluhan: boolean;
-  pemanfaatan_produk: "dijual_sendiri" | "dijual_ke_tengkulak";
-}
-
 const TanamanSchema = new Schema<ITanaman>({
   nama_tanaman: {
     type: String,
@@ -48,14 +24,8 @@ const TanamanSchema = new Schema<ITanaman>({
   rata2_volume_produksi: { type: Number, required: true },
   rata2_nilai_produksi: { type: Number, required: true },
   jenis_pupuk: {
-    type: String,
-    enum: [
-      "urea",
-      "npk",
-      "non_organik_lainnya",
-      "organik",
-      "tidak_ada",
-    ],
+    type: [String],
+    enum: ["urea", "npk", "non_organik_lainnya", "organik", "tidak_ada"],
     required: true,
   },
   is_penyuluhan: { type: Boolean, required: true },
@@ -66,7 +36,31 @@ const TanamanSchema = new Schema<ITanaman>({
   },
 });
 
+interface ITanaman extends Document {
+  nama_tanaman: "kangkung" | "bayam" | "sawi";
+  frekuensi_tanam: number;
+  rata2_luas_tanam: number;
+  frekuensi_panen: number;
+  rata2_luas_panen: number;
+  penyebab_luas_panen_kurang_dari_luas_tanam:
+    | "kekeringan/kekurangan_air"
+    | "hama/penyakit"
+    | "panen_sebagian"
+    | "lainnya"
+    | "";
+  rata2_volume_produksi: number;
+  rata2_nilai_produksi: number;
+  jenis_pupuk: (
+    | "urea"
+    | "npk"
+    | "non_organik_lainnya"
+    | "organik"
+    | "tidak_ada"
+  )[];
+  is_penyuluhan: boolean;
+  pemanfaatan_produk: "dijual_sendiri" | "dijual_ke_tengkulak";
+}
+
 const Tanaman = mongoose.model<ITanaman>("Tanaman", TanamanSchema);
 
 export { ITanaman, Tanaman };
-
