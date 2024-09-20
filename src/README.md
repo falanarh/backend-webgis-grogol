@@ -23,7 +23,7 @@ Repositori ini merupakan proyek backend website peta tematik desa cantik untuk p
 ## Struktur Proyek
 
 ```
-backend-webgis-simoanginangin/
+backend-webgis-grogol/
 ├── src/
 │ ├── config/ # Konfigurasi aplikasi
 │ ├── controllers/ # Logic handler untuk setiap route
